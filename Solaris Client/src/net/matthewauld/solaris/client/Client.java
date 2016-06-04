@@ -16,9 +16,9 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
 public class Client extends Canvas implements Runnable {
-	public static final int		CLIENT_HEIGHT		= 720;
-	public static final int		CLIENT_WIDTH		= 1280;
-	public static final String	GAME_NAME			= "Nogard";
+	public static int			CLIENT_HEIGHT		= 720;
+	public static int			CLIENT_WIDTH		= 1280;
+	public static String		GAME_NAME			= "EXAMPLE GAME";
 	private static boolean		GAME_RUNNING		= true;
 	private static final long	serialVersionUID	= 1965121834424532560L;
 
@@ -26,10 +26,42 @@ public class Client extends Canvas implements Runnable {
 		new Client();
 	}
 
+	public static void setGameName(String gameName) {
+		GAME_NAME = gameName;
+	}
+
+	public static void setGameSize(int width, int height) {
+		CLIENT_WIDTH = width;
+		CLIENT_HEIGHT = height;
+	}
+
 	private JFrame window;
 
 	public Client() {
-		// Start Game Window
+		startGame();
+	}
+
+	/**
+	 * All graphics will be process through this function.
+	 *
+	 * @param g
+	 */
+	public void render(Graphics2D g) {
+		g.setColor(Color.CYAN);
+		g.fillRect(0, 0, getWidth(), getHeight());
+	}
+
+	@Override
+	public void run() {
+		BufferStrategy bs = getBufferStrategy();
+		while (GAME_RUNNING) {
+			render((Graphics2D) bs.getDrawGraphics());
+			bs.show();
+
+		}
+	}
+
+	private void startGame() {
 		window = new JFrame(GAME_NAME + " ~ Solaris Engine");
 		window.setSize(CLIENT_WIDTH, CLIENT_HEIGHT);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,21 +71,5 @@ public class Client extends Canvas implements Runnable {
 		createBufferStrategy(2);
 		// Start Logic & Graphic Loop
 		new Thread(this).start();
-	}
-
-	public void render(Graphics2D g) {
-		g.setColor(Color.CYAN);
-		g.fillRect(0, 0, getWidth(), getHeight());
-	}
-
-	@Override
-	public void run() {
-
-		BufferStrategy bs = getBufferStrategy();
-		while (GAME_RUNNING) {
-			render((Graphics2D) bs.getDrawGraphics());
-			bs.show();
-
-		}
 	}
 }
