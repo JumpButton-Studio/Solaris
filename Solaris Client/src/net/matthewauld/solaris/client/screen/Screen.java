@@ -10,8 +10,25 @@ package net.matthewauld.solaris.client.screen;
 
 import java.awt.Graphics2D;
 
+import net.matthewauld.solaris.client.Client;
+
 public abstract class Screen {
-	private boolean isVisible;
+	private int		height	= 0;
+	private boolean	isVisible;
+	private int		width	= 0;
+
+	public Screen(Client c) {
+		this.width = c.getWidth();
+		this.height = c.getHeight();
+	}
+
+	public int getHeight() {
+		return this.height;
+	}
+
+	public int getWidth() {
+		return this.width;
+	}
 
 	public boolean isVisible() {
 		return this.isVisible;

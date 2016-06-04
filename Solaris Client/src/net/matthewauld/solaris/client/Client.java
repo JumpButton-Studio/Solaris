@@ -12,10 +12,14 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import net.matthewauld.solaris.client.screen.Screen;
+
 public class Client extends Canvas implements Runnable {
+	private static Color		BASE_COLOR			= Color.CYAN;
 	public static int			CLIENT_HEIGHT		= 720;
 	public static int			CLIENT_WIDTH		= 1280;
 	public static String		GAME_NAME			= "EXAMPLE GAME";
@@ -24,6 +28,10 @@ public class Client extends Canvas implements Runnable {
 
 	public static void main(String[] args) {
 		new Client();
+	}
+
+	public static void setBaseColor(Color base) {
+		BASE_COLOR = base;
 	}
 
 	public static void setGameName(String gameName) {
@@ -35,10 +43,15 @@ public class Client extends Canvas implements Runnable {
 		CLIENT_HEIGHT = height;
 	}
 
-	private JFrame window;
+	private ArrayList<Screen>	screens	= new ArrayList<Screen>();
+	private JFrame				window;
 
 	public Client() {
 		startGame();
+	}
+
+	public void addScreen(Screen s) {
+		screens.add(s);
 	}
 
 	/**
@@ -47,8 +60,14 @@ public class Client extends Canvas implements Runnable {
 	 * @param g
 	 */
 	public void render(Graphics2D g) {
-		g.setColor(Color.CYAN);
+		g.setColor(BASE_COLOR);
 		g.fillRect(0, 0, getWidth(), getHeight());
+
+		for (Screen s : screens) {
+			if (s.isVisible()) {
+				s.render(g);
+			}
+		}
 	}
 
 	@Override

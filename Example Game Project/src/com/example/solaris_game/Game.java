@@ -20,7 +20,9 @@ public class Game extends Client {
 	}
 
 	public Game() {
-
+		LoadingScreen ls = new LoadingScreen(this);
+		addScreen(ls);
+		ls.setVisible(true);
 	}
 
 }
