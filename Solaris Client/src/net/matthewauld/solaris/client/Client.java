@@ -16,6 +16,9 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import net.matthewauld.solaris.client.assets.Asset;
+import net.matthewauld.solaris.client.assets.AssetType;
+import net.matthewauld.solaris.client.screen.LoadingScreen;
 import net.matthewauld.solaris.client.screen.Screen;
 
 public class Client extends Canvas implements Runnable {
@@ -43,11 +46,20 @@ public class Client extends Canvas implements Runnable {
 		CLIENT_HEIGHT = height;
 	}
 
+	private ArrayList<Asset>	assets	= new ArrayList<Asset>();
+	protected LoadingScreen		loadingScreen;
 	private ArrayList<Screen>	screens	= new ArrayList<Screen>();
 	private JFrame				window;
 
 	public Client() {
+		loadingScreen = new LoadingScreen(this);
+		loadingScreen.setVisible(true);
+		addScreen(loadingScreen);
 		startGame();
+	}
+
+	public void addAsset(AssetType at, String assetURL) {
+		assets.add(new Asset(at, assetURL));
 	}
 
 	public void addScreen(Screen s) {

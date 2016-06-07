@@ -20,9 +20,12 @@ public class Game extends Client {
 	}
 
 	public Game() {
-		LoadingScreen ls = new LoadingScreen(this);
-		addScreen(ls);
-		ls.setVisible(true);
+		try {
+			this.loadingScreen.start();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
